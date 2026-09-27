@@ -1,0 +1,17 @@
+name: Deploy to Netlify
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Deploy via Netlify MCP
+        run: npx -y @netlify/mcp@latest --site-id 38d28aee-218c-4324-a43f-25f3e2437470 --proxy-path "$NETLIFY_DEPLOY_PROXY"
+        env:
+          NETLIFY_DEPLOY_PROXY: ${{ secrets.NETLIFY_DEPLOY_PROXY }}
